@@ -16,6 +16,7 @@ public class Parking {
     Matcher mat;
     int intentos =3;
 
+
     HashMap<String, Coche> mapa;
     HashMap<String, Coche> cochesTotal;
 
@@ -26,6 +27,7 @@ public class Parking {
         mapa = new HashMap<>();
         cochesTotal = new HashMap<>();
         exit = true;
+
 
     }
 
@@ -95,35 +97,50 @@ public class Parking {
     }
 
     public void entrar() {
-
+        int intentosMarca=3;
+        int intentosModelo =3;
+        int intentosMatricula= 3;
         String marca;
         String modelo;
 
         do {
+
+
             System.out.print("Introducir marca:");
             marca = keybord.nextLine();
+
             if (marca.isEmpty()) {
                 System.out.println("ERROR: Introduzca la marca correcta");
-
+                intentosMarca--;
+                if (intentosMarca==0){
+                    saltarYLanzar();
+                }
             }
-        } while (marca.isEmpty() );
+        } while (marca.isEmpty());
+
 
         do {
             System.out.print("Introduzca el modelo:");
             modelo = keybord.nextLine();
             if (modelo.isEmpty()) {
                 System.out.println("ERROR: Introduzca el modelo correcto");
-
+                intentosModelo--;
+                if (intentosModelo==0){
+                    saltarYLanzar();
+                }
 
             }
-        } while (modelo.isEmpty() );
+        } while (modelo.isEmpty());
 
 
         do {
            matriculaValida();
             if (matricula.isEmpty() || !mat.matches()) {
                 System.out.println("ERROR: Introduzca la matricula correcta, con el patron: AAA111");
-
+                intentosMatricula--;
+                if (intentosMatricula==0){
+                    saltarYLanzar();
+                }
             }
 
 
@@ -143,21 +160,24 @@ public class Parking {
     }
 
     public void registrarSalida() {
-
-
+        primerPaso();
+        int intentosMatricula =3;
 
         do {
            matriculaValida();
             if (matricula.isEmpty() || !mat.matches()) {
                 System.out.println("ERROR: Introduzca la matricula correcta, con el patron: AAA111");
-
+                intentosMatricula--;
+                if (intentosMatricula==0){
+                    saltarYLanzar();
+                }
 
             }
             if (!mapa.containsKey(matricula)) {
                 System.out.println("la matricula no existe");
 
             }
-        } while (matricula.isEmpty() || !mat.matches() || !mapa.containsKey(matricula) );
+        } while (matricula.isEmpty() || !mat.matches() || !mapa.containsKey(matricula) && intentos>0);
 
 
         LocalDateTime horaSalida = LocalDateTime.now();
@@ -177,11 +197,17 @@ public class Parking {
 
     public void consultar() {
 
+        primerPaso();
+
+        int intentosMatricula=3;
         do {
             matriculaValida();
             if (!mat.matches()) {
                 System.out.println("ERROR! La matricula no es valida");
-
+                intentosMatricula--;
+                if (intentosMatricula==0){
+                    saltarYLanzar();
+                }
             }
 
         } while (!mat.matches());
@@ -197,12 +223,18 @@ public class Parking {
     }
 
     public void datosCoche() {
+        primerPaso();
 
+        int intentosMatricula=3;
         do {
             matriculaValida();
+            intentosMatricula--;
+            if (intentosMatricula==0){
+                saltarYLanzar();
+            }
 
             System.out.println(coche1.getCoche(matricula, mapa));
-        }while(matricula.isEmpty() || !mat.matches() );
+        }while(matricula.isEmpty() || !(mat.matches()));
 
 
     }
@@ -214,5 +246,14 @@ public class Parking {
         pattern = Pattern.compile(matriculaValida);
         mat = pattern.matcher(matricula);
     }
+    public void primerPaso(){
+        if (mapa.isEmpty()){
+            System.out.println("Parking vacio, introducir primeramente coches en el parking");
+            saltarYLanzar();
 
-}
+        }
+    }
+
+    }
+
+

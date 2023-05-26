@@ -1,7 +1,5 @@
 package com.parking;
-
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -18,10 +16,10 @@ public class Coche {
 
     }
 
-    public Coche(String marca, String modelo,LocalDateTime horaEntrada) {
+    public Coche(String marca, String modelo, LocalDateTime horaEntrada) {
         this.marca = marca;
         this.modelo = modelo;
-        this.horaEntrada= horaEntrada;
+        this.horaEntrada = horaEntrada;
 
     }
 
@@ -67,45 +65,49 @@ public class Coche {
 
     @Override
     public String toString() {
-        return  "marca='" + marca + '\'' +
+        return "marca='" + marca + '\'' +
                 ", modelo='" + modelo + '\'' +
                 ", horaEntrada=" + horaEntrada +
                 '}';
     }
 
 
-    public boolean existeCoche(String matricula, HashMap<String, Coche> map){
+    public boolean existeCoche(String matricula, HashMap<String, Coche> map) {
         return map.containsKey(matricula);
     }
 
 
-    public String getCoche(String matricula,HashMap<String, Coche> map){
+    public String getCoche(String matricula, HashMap<String, Coche> map) {
 
-        if (map.containsKey(matricula)){
-            return "Marca: " +getMarca() + "\nModelo: " + getModelo();
+        if (map.containsKey(matricula)) {
+            return "Marca: " + getMarca() + "\nModelo: " + getModelo();
         }
         return "No hay coche con esa matricula";
     }
 
 
-    public void imprimirCocheSistema(HashMap<String, Coche> map){
-
+    public void imprimirCocheSistema(HashMap<String, Coche> map) {
+        if (map.isEmpty()) {
+            System.out.println("No hay coches en el sistema");
+        }
         map.forEach((key, value) -> System.out.println("Matricula: " + key + "  " + value));
 
 
     }
-    public void imprimirCocheParking(HashMap<String, Coche> mapa){
-        if (mapa.isEmpty()){
+
+    public void imprimirCocheParking(HashMap<String, Coche> mapa) {
+        if (mapa.isEmpty()) {
             System.out.println("No hay coches en el parking");
         }
         mapa.forEach((key, value) -> System.out.println(key + " " + value));
 
     }
-    public String canidadPagar(double minutosEntrada, double minutosSalida ){
+
+    public String canidadPagar(double minutosEntrada, double minutosSalida) {
 
         double totalMinutos = minutosSalida - minutosEntrada;
-        double costo= 0.15;
-        double pago = costo* totalMinutos;
+        double costo = 0.15;
+        double pago = costo * totalMinutos;
         BigDecimal total = BigDecimal.valueOf(pago);
 
         return "" + total;
